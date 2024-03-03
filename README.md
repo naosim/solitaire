@@ -1,1 +1,1 @@
-# solitaire
+# solitaire ソリティア
