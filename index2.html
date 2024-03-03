@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<meta charset="UTF-8" />
+<style>
+.card, .mark, .num, .front,.back {
+  position: absolute;
+}
+
+.card {
+  background-color: white;
+  width: 60px;
+  height: 84px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #888;
+  border-radius: 6px;
+
+  transition-property: top, left;
+  transition-duration: 0.3s;
+}
+.card.selected {
+  border-width: 4px;
+  border-color: orange;
+}
+
+.mark {
+  top: 0px;
+  font-size: 32px;
+  right: 4px;
+}
+.red  .mark {
+  color: red;
+}
+
+.num {
+  top: 4px;
+  font-size: 20px;
+  text-align: right;
+}
+.red  .num {
+  color: red;
+}
+
+.big-mark {
+  font-size: 64px;
+  margin-top: 24px;
+
+  text-align: center;
+}
+.red > .big-mark {
+  color: red;
+}
+
+.front {
+  width: 52px;
+  height: 76px;
+  margin: 4px;
+  background-color: white;
+}
+
+.facedown > .front {
+  display: none;
+}
+
+
+.back {
+  width: 52px;
+  height: 76px;
+  margin: 4px;
+  background-color: aquamarine;
+}
+
+button {
+  display: block;
+  position: absolute;
+  width: 62px;
+  height: 44px;
+}
+
+</style>
+<div id="app">
+<!-- <div class="card">
+  <div class="front">
+    <div class="lefttop">
+      <div class="mark">♥</div><div class="num">K</div>
+    </div>
+    <div class="big-mark">♥</div>
+  </div>
+</div>
+
+<div class="card " style="left: 32px;">
+  <div class="back"></div>
+  <div class="front">
+    <div class="lefttop">
+      <div class="mark">♥</div><div class="num">K</div>
+    </div>
+    <div class="big-mark">♥</div>
+  </div>
+</div> -->
+
+</div>
+<script type="module" src="./js/main2.mjs"></script>
