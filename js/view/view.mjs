@@ -1,5 +1,6 @@
 import { Card, Face, Mark } from "../solitaire/card.mjs";
 import { TableauDecks } from "../solitaire/tableauDeck.mjs";
+import { size } from "./size.mjs";
 
 export class DeckType {
   /** @type {string} */
@@ -143,13 +144,13 @@ export class CardViewMdel {
    * @param {TableauDecks} 場札
    */
   位置を設定する2(deckType, i, 場札) {
-    const offsetX = 100;
+    const offsetX = size.カードグリッド.x;
     if(deckType.group == "場札") {
       const x = offsetX * deckType.index;
-      let y = 300 + i * 4;
+      let y = size.場札の開始位置.y + i * size.ズレ.裏札;
       if(this.#裏表.が表) {
         const 裏面枚数 = 場札.場札[deckType.index].裏面デッキ.枚数;
-        y = 300 + 裏面枚数 * 4 + (i - 裏面枚数) * 32;
+        y = size.場札の開始位置.y + 裏面枚数 * size.ズレ.裏札 + (i - 裏面枚数) * size.ズレ.表札;
       }
       this.位置を設定する(x, y);
     } else if(deckType.group == "組札") {

@@ -1,6 +1,8 @@
 import { Card, Face, Mark } from "./solitaire/card.mjs";
 import { Solitaire } from "./solitaire/solitaire.mjs";
+import { size } from "./view/size.mjs";
 import { DeckType, CardViewMdel, CardViewMdelRepository } from "./view/view.mjs";
+
 
 
 export class Assistant {
@@ -162,7 +164,7 @@ function setup(ソリティア) {
 
   const 手札をめくるボタン = createElement("button", v => {
     v.innerHTML = "めくる";
-    v.style.left = "600px";
+    v.style.left = size.カードグリッド.x * 6 + "px";
     v.style.top = "140px";
     v.addEventListener("click", () => {
       ソリティア.手札を1枚めくる();
@@ -177,7 +179,7 @@ function setup(ソリティア) {
       v.innerHTML = "ここにおく";
       v.id = `tableauButton${i}`;
       v.className = "tableauButton"
-      v.style.left = `${100 * i}px`;
+      v.style.left = `${size.カードグリッド.x * i}px`;
       v.style.top = "500px";
       v.style.zIndex = "1000000000";
       v.addEventListener("click", () => {
@@ -211,8 +213,8 @@ function draw(ソリティア) {
     const おくボタンを表示できる = 選択中のカード && ソリティア.場札.にカードを置ける(選択中のカード, i);
     v.style.display = おくボタンを表示できる ? "block" : "none"
 
-    const y =  ソリティア.場札.場札[i].裏面デッキ.枚数 * 4 + ソリティア.場札.場札[i].表面デッキ.枚数 * 32;
-    v.style.top = `${300 + 60 + y}px`;
+    const y =  ソリティア.場札.場札[i].裏面デッキ.枚数 * size.ズレ.裏札 + ソリティア.場札.場札[i].表面デッキ.枚数 * size.ズレ.表札;
+    v.style.top = `${size.場札の開始位置.y + size.card.height + y}px`;
   })
 
   if(アシスタント.補助する(選択中のカード)) {
