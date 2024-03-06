@@ -1,4 +1,5 @@
 import { Card, Face, Mark } from "./solitaire/card.mjs";
+import { Deck } from "./solitaire/deck.mjs";
 import { Solitaire } from "./solitaire/solitaire.mjs";
 import { size } from "./view/size.mjs";
 import { DeckType, CardViewMdel, CardViewMdelRepository } from "./view/view.mjs";
@@ -18,16 +19,57 @@ export class Assistant {
    */
   補助する(選択中のカード) {
     if(!選択中のカード) {
-      return false;
+      return this.最後のカードから組札に置けるカードを探す();
     }
     if(選択中のカード.数字 == ソリティア.組札.最小の数 + 1) {
       ソリティア.カードを組札移動する(選択中のカード);
       return true;
     }
-    return false;
+    return this.選択中のカードが1箇所だけに移動できるなら移動する(選択中のカード);
 
   }
+  最後のカードから組札に置けるカードを探す() {
+    const 各デッキの最後のカードリスト = ソリティア.場札.場札.filter(v => v.表面デッキ.が空でない).map(v => v.表面デッキ.最後のカード);
+    if(ソリティア.手札.表面デッキ.が空でない) {
+      各デッキの最後のカードリスト.push(ソリティア.手札.表面デッキ.最後のカード);
+    }
+
+    const 移動できるカードリスト = 各デッキの最後のカードリスト.filter(v => ソリティア.組札.にカードを置ける(v) && v.数字 == ソリティア.組札.最小の数 + 1)
+    if(移動できるカードリスト.length == 0) {
+      return false;
+    }
+    移動できるカードリスト.forEach(v => ソリティア.カードを組札移動する(v));
+    return true;
+  }
+  /**
+   * 
+   * @param {Card} 選択中のカード 
+   */
+  選択中のカードが1箇所だけに移動できるなら移動する(選択中のカード) {
+    const 組札に置ける = this.ソリティア.組札.にカードを置ける(選択中のカード);
+    const デッキ = new Deck([選択中のカード]);
+    var 場札番号 = -1;
+    const 場札に置ける数 = this.ソリティア.場札.場札.filter((v, i) => {
+      if(v.にデッキを置ける(デッキ)) {
+        場札番号 = i;
+        return true;
+      }
+      return false;
+    }).length
+
+    if(場札に置ける数 == 0 && 組札に置ける) {
+      this.ソリティア.カードを組札移動する(選択中のカード);
+      return true;
+    }
+    if(場札に置ける数 == 1 && !組札に置ける) {
+      this.ソリティア.カードを場札に移動する(選択中のカード, 場札番号);
+      return true;
+    }
+    return false;
+  }
+  
 }
+
 
 
 
@@ -220,7 +262,9 @@ function draw(ソリティア) {
   if(アシスタント.補助する(選択中のカード)) {
     選択中のカード = null;
     ソリティア.リフレッシュ();
-    draw(ソリティア);
+    setTimeout(() => {
+      draw(ソリティア);
+    }, 300)
   }
 }
 
