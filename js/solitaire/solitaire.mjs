@@ -74,6 +74,9 @@ export class Solitaire {
    * @returns 
    */
   カードを組札移動する(カード) {
+    if(this.場札.カードがある(カード) && !this.場札.カードは最後の1枚である(カード)) {
+      return false;
+    }
     if(!this.組札.にカードを置ける(カード)) {
       return false;
     }

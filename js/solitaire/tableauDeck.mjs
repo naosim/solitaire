@@ -164,4 +164,20 @@ export class TableauDecks {
     this.場札.forEach(cb);
   }
 
+  /**
+   * 
+   * @param {Card} カード 
+   */
+  カードは最後の1枚である(カード) {
+    return this.場札.map(v => v.表面デッキ).filter(v => v.が空でない).filter(v => v.最後のカード.と(カード).が同じ()).length > 0
+  }
+
+  /**
+   * 
+   * @param {Card} カード 
+   */
+  カードがある(カード) {
+    return this.場札.map(v => v.表面デッキ).filter(v => v.含む(カード)).length > 0
+  }
+
 }
