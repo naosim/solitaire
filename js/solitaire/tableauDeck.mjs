@@ -33,14 +33,15 @@ export class TableauDeck {
 
   リフレッシュ() {
     if(this.表面デッキ.枚数 > 0) {
-      return;
+      return false;
     }
     if(this.裏面デッキ.が空) {
-      return;
+      return false;
     }
     const 裏面デッキの最後のカード = this.裏面デッキ.最後のカードを取る();
     裏面デッキの最後のカード.表にする();
     this.表面デッキ.に(裏面デッキの最後のカード).を置く();
+    return true;
   }
 
   /**
@@ -152,7 +153,7 @@ export class TableauDecks {
   }
 
   リフレッシュ() {
-    this.場札.forEach(v => v.リフレッシュ());
+    return this.場札.filter(v => v.リフレッシュ()).length > 0;
   }
 
   /**

@@ -120,7 +120,9 @@ export class Solitaire {
   }
 
   リフレッシュ() {
-    this.場札.リフレッシュ();
+    if(!this.場札.リフレッシュ()) {
+      return;
+    }
     if(this.変更リスナー) {
       setTimeout(this.変更リスナー, 0);
     }

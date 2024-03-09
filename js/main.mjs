@@ -177,6 +177,7 @@ var アシスタント;
  */
 function setup(ソリティア) {
   ソリティア.変更リスナー = () => {
+    sound.play();// 任意タイミングで
     draw(ソリティア);
   }
 
@@ -286,4 +287,9 @@ var 選択中のカード = null;
 const ソリティア = new Solitaire();
 window["ソリティア"] = ソリティア
 const cardViewMdelRepository = new CardViewMdelRepository();
+//タイプ音読み込み
+const sound = new window["Howl"]({
+  src: ['./sound/se1.mp3'] //パスは変えて下さい
+});
+
 setup(ソリティア);
