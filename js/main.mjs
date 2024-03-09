@@ -1,6 +1,6 @@
 import { Card, Face, Mark } from "./solitaire/card.mjs";
 import { Deck } from "./solitaire/deck.mjs";
-import { Solitaire } from "./solitaire/solitaire.mjs";
+import { CommandName, Solitaire } from "./solitaire/solitaire.mjs";
 import { size } from "./view/size.mjs";
 import { DeckType, CardViewMdel, CardViewMdelRepository } from "./view/view.mjs";
 
@@ -176,8 +176,12 @@ var アシスタント;
  * @param {Solitaire} ソリティア 
  */
 function setup(ソリティア) {
-  ソリティア.変更リスナー = () => {
-    sound.play();// 任意タイミングで
+  ソリティア.変更リスナー = (v) => {
+    if(v.eq(CommandName.カードを組札移動する)) {
+      sounds[1].play();
+    } else {
+      sounds[0].play();
+    }
     draw(ソリティア);
   }
 
@@ -288,8 +292,6 @@ const ソリティア = new Solitaire();
 window["ソリティア"] = ソリティア
 const cardViewMdelRepository = new CardViewMdelRepository();
 //タイプ音読み込み
-const sound = new window["Howl"]({
-  src: ['./sound/se1.mp3'] //パスは変えて下さい
-});
+const sounds = ['./sound/se1.mp3', './sound/se2.mp3'].map(v => new window["Howl"]({src: [v]}));
 
 setup(ソリティア);

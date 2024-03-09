@@ -15,10 +15,19 @@ export class CommandName {
   constructor(value) {
     this.value = value;
   }
+  /**
+   * 
+   * @param {CommandName} other 
+   * @returns 
+   */
+  eq(other) {
+    return this.value == other.value;
+  }
 
   static カードを場札に移動する = new CommandName("カードを場札に移動する");
   static カードを組札移動する = new CommandName("カードを組札移動する");
   static 手札を1枚めくる = new CommandName("手札を1枚めくる");
+  static リフレッシュ = new CommandName("リフレッシュ");
 }
 
 export class Solitaire {
@@ -29,7 +38,7 @@ export class Solitaire {
   /** @type {FoundationDecks} */
   組札;
 
-  /** @type {undefined | (()=>void)} */
+  /** @type {undefined | ((v:CommandName)=>void)} */
   変更リスナー
 
   constructor() {
@@ -63,7 +72,9 @@ export class Solitaire {
     const 移動するデッキ = this.デッキを取り出す(カード);
     this.場札.にデッキを移動する(移動するデッキ, 場札番号);
     if(this.変更リスナー) {
-      setTimeout(this.変更リスナー, 0);
+      setTimeout(() => {
+        this.変更リスナー && this.変更リスナー(CommandName.カードを場札に移動する)
+      }, 0);
     }
     return true;
   }
@@ -85,7 +96,9 @@ export class Solitaire {
 
     this.組札.にカードを移動する(移動するカード);
     if(this.変更リスナー) {
-      setTimeout(this.変更リスナー, 0);
+      setTimeout(() => {
+        this.変更リスナー && this.変更リスナー(CommandName.カードを組札移動する)
+      }, 0);
     }
     return true;
   }
@@ -93,7 +106,9 @@ export class Solitaire {
   手札を1枚めくる() {
     this.手札.を1枚めくる();
     if(this.変更リスナー) {
-      setTimeout(this.変更リスナー, 0);
+      setTimeout(() => {
+        this.変更リスナー && this.変更リスナー(CommandName.手札を1枚めくる)
+      }, 0);
     }
   }
 
@@ -127,7 +142,9 @@ export class Solitaire {
       return;
     }
     if(this.変更リスナー) {
-      setTimeout(this.変更リスナー, 0);
+      setTimeout(() => {
+        this.変更リスナー && this.変更リスナー(CommandName.リフレッシュ)
+      }, 0);
     }
   }
 
