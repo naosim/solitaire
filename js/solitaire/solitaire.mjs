@@ -29,6 +29,9 @@ export class Solitaire {
   /** @type {FoundationDecks} */
   組札;
 
+  /** @type {undefined | (()=>void)} */
+  変更リスナー
+
   constructor() {
     const デッキ = Solitaire.シャッフルされたデッキを作る();
     const 場札リスト = [0, 1, 2, 3, 4, 5, 6]
@@ -59,6 +62,9 @@ export class Solitaire {
     }
     const 移動するデッキ = this.デッキを取り出す(カード);
     this.場札.にデッキを移動する(移動するデッキ, 場札番号);
+    if(this.変更リスナー) {
+      setTimeout(this.変更リスナー, 0);
+    }
     return true;
   }
 
@@ -75,11 +81,17 @@ export class Solitaire {
     const 移動するカード = 移動するデッキ.最後のカード
 
     this.組札.にカードを移動する(移動するカード);
+    if(this.変更リスナー) {
+      setTimeout(this.変更リスナー, 0);
+    }
     return true;
   }
 
   手札を1枚めくる() {
     this.手札.を1枚めくる();
+    if(this.変更リスナー) {
+      setTimeout(this.変更リスナー, 0);
+    }
   }
 
   /**
@@ -109,6 +121,9 @@ export class Solitaire {
 
   リフレッシュ() {
     this.場札.リフレッシュ();
+    if(this.変更リスナー) {
+      setTimeout(this.変更リスナー, 0);
+    }
   }
 
   バグチェック() {

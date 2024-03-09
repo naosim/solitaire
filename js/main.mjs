@@ -138,13 +138,8 @@ function 選択中のカードを場札に置く(場札番号) {
   console.log(選択中のカード, 場札番号);
   ソリティア.カードを場札に移動する(選択中のカード, 場札番号);
   選択中のカード = null;
-  draw(ソリティア);
-  
-  setTimeout(() => {
-    ソリティア.リフレッシュ();  
-    draw(ソリティア);
-  }, 500);
-  
+  // draw(ソリティア);
+  リフレッシュ();
   
   if(!ソリティア.バグチェック()) {
     alert("枚数が不整合です");
@@ -157,12 +152,8 @@ function 選択中のカードを組札に置く() {
   }
   ソリティア.カードを組札移動する(選択中のカード);
   選択中のカード = null;
-  draw(ソリティア);
-
-  setTimeout(() => {
-    ソリティア.リフレッシュ();  
-    draw(ソリティア);
-  }, 500);
+  // draw(ソリティア);
+  リフレッシュ();
   if(!ソリティア.バグチェック()) {
     alert("枚数が不整合です");
   }
@@ -185,6 +176,10 @@ var アシスタント;
  * @param {Solitaire} ソリティア 
  */
 function setup(ソリティア) {
+  ソリティア.変更リスナー = () => {
+    draw(ソリティア);
+  }
+
   アシスタント = new Assistant(ソリティア);
   forEachCard(ソリティア, (c, d, i) => {
     const vm = CardViewMdel.create(c, カードが押された);
@@ -213,7 +208,7 @@ function setup(ソリティア) {
     const めくる = () => {
       ソリティア.手札を1枚めくる();
       選択中のカード = null;
-      draw(ソリティア);
+      // draw(ソリティア);
     }
     // v.addEventListener("touchstart",めくる);
     v.addEventListener("mousedown",めくる);
@@ -268,13 +263,22 @@ function draw(ソリティア) {
     v.style.top = `${size.場札の開始位置.y + size.card.height + y}px`;
   })
 
-  if(アシスタント.補助する(選択中のカード)) {
-    選択中のカード = null;
-    ソリティア.リフレッシュ();
-    setTimeout(() => {
-      draw(ソリティア);
+  補助する();
+}
+
+function リフレッシュ() {
+  setTimeout(() => {
+      ソリティア.リフレッシュ();
     }, 300)
-  }
+}
+
+function 補助する() {
+  setTimeout(() => {
+    if(アシスタント.補助する(選択中のカード)) {
+      選択中のカード = null;
+      リフレッシュ();
+    }
+  }, 300)
 }
 
 /** @type {Card | null} */
