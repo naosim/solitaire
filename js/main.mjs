@@ -207,7 +207,8 @@ function setup(ソリティア) {
   const 手札をめくるボタン = createElement("button", v => {
     v.innerHTML = "めくる";
     v.style.left = size.カードグリッド.x * 6 + "px";
-    v.style.top = "140px";
+    // v.style.top = "140px";
+    v.style.top = "60px";
     v.addEventListener("click", () => {
       ソリティア.手札を1枚めくる();
       選択中のカード = null;
