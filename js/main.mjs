@@ -209,11 +209,18 @@ function setup(ソリティア) {
     v.style.left = size.カードグリッド.x * 6 + "px";
     // v.style.top = "140px";
     v.style.top = "60px";
-    v.addEventListener("click", () => {
+    const めくる = () => {
       ソリティア.手札を1枚めくる();
       選択中のカード = null;
       draw(ソリティア);
-    })
+    }
+    // v.addEventListener("touchstart",めくる);
+    v.addEventListener("mousedown",めくる);
+    // v.addEventListener("click", () => {
+    //   ソリティア.手札を1枚めくる();
+    //   選択中のカード = null;
+    //   draw(ソリティア);
+    // })
   })
   qs("#app").appendChild(手札をめくるボタン);
 
