@@ -179,7 +179,8 @@ function setup(ソリティア) {
   ソリティア.変更リスナー = (v) => {
     if(v.eq(CommandName.カードを組札移動する)) {
       sounds[1].play();
-    } else {
+    } else if(v.eq(CommandName.手札を1枚めくる)) {
+      // nop: 音を鳴らさない
       sounds[0].play();
     }
     draw(ソリティア);
@@ -208,20 +209,12 @@ function setup(ソリティア) {
   const 手札をめくるボタン = createElement("button", v => {
     v.innerHTML = "めくる";
     v.style.left = size.カードグリッド.x * 6 + "px";
-    // v.style.top = "140px";
     v.style.top = "60px";
     const めくる = () => {
       ソリティア.手札を1枚めくる();
       選択中のカード = null;
-      // draw(ソリティア);
     }
-    // v.addEventListener("touchstart",めくる);
     v.addEventListener("mousedown",めくる);
-    // v.addEventListener("click", () => {
-    //   ソリティア.手札を1枚めくる();
-    //   選択中のカード = null;
-    //   draw(ソリティア);
-    // })
   })
   qs("#app").appendChild(手札をめくるボタン);
 
