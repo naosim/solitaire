@@ -211,18 +211,28 @@ function setup() {
   })
   qs("#app").appendChild(組札におくボタン);
 
+  const めくるボタンが押されたときの挙動 = () => {
+    ソリティア.手札を1枚めくる();
+    選択中のカード = null;
+  }
   const 手札をめくるボタン = createElement("button", v => {
     v.innerHTML = "めくる";
     v.style.left = size.カードグリッド.x * 6 + "px";
     v.style.top = `${60 + size.appMargin.top}px`;
     v.className = "gameButton";
-    const めくる = () => {
-      ソリティア.手札を1枚めくる();
-      選択中のカード = null;
-    }
-    v.addEventListener("mousedown",めくる);
+    v.addEventListener("mousedown",めくるボタンが押されたときの挙動);
   })
   qs("#app").appendChild(手札をめくるボタン);
+
+  const 手札をめくるボタン2 = createElement("button", v => {
+    v.innerHTML = "手札をめくる";
+    v.style.left = "80px";
+    v.style.top = "700px";
+    v.style.width = "300px";
+    v.className = "gameButton";
+    v.addEventListener("mousedown",めくるボタンが押されたときの挙動);
+  })
+  qs("#app").appendChild(手札をめくるボタン2);
 
   [0, 1, 2, 3, 4, 5, 6].forEach(i => {
     const 場札に置くボタン = createElement("button", v => {
