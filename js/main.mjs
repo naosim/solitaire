@@ -185,9 +185,11 @@ function setup() {
       sounds[1].play();
     } else if(v.eq(CommandName.手札を1枚めくる)) {
       // nop: 音を鳴らさない
+    } else {
       sounds[0].play();
     }
     draw(ソリティア);
+    
   }
 
   アシスタント = new Assistant(ソリティア);
