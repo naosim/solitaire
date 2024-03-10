@@ -69,7 +69,7 @@ export class Assistant {
   }
   
 }
-
+window
 
 
 
@@ -162,7 +162,7 @@ function 選択中のカードを組札に置く() {
 /**
  * @type {HTMLElement[]}
  */
-const tableauButtons = [];
+var tableauButtons = [];
 
 /**
  * @type {HTMLElement}
@@ -172,10 +172,14 @@ var 組札におくボタン;
 /** @type {Assistant} */
 var アシスタント;
 
-/**
- * @param {Solitaire} ソリティア 
- */
-function setup(ソリティア) {
+function setup() {
+  qs("#app").innerHTML = "";
+
+  選択中のカード = null;
+  ソリティア = new Solitaire();
+  cardViewMdelRepository = new CardViewMdelRepository();
+  tableauButtons = [];
+
   ソリティア.変更リスナー = (v) => {
     if(v.eq(CommandName.カードを組札移動する)) {
       sounds[1].play();
@@ -199,6 +203,7 @@ function setup(ソリティア) {
     v.innerHTML = "組札に\nおく";
     v.style.left = "100px";
     v.style.top = "140px";
+    v.className = "gameButton";
     //v.style.top = `${600 + size.appMargin.top}px`;
     v.addEventListener("click", () => {
       選択中のカードを組札に置く();
@@ -210,6 +215,7 @@ function setup(ソリティア) {
     v.innerHTML = "めくる";
     v.style.left = size.カードグリッド.x * 6 + "px";
     v.style.top = `${60 + size.appMargin.top}px`;
+    v.className = "gameButton";
     const めくる = () => {
       ソリティア.手札を1枚めくる();
       選択中のカード = null;
@@ -279,12 +285,16 @@ function 補助する() {
   }, 300)
 }
 
+qs("#newGameButton").addEventListener("click", () => {
+  setup();
+})
+
 /** @type {Card | null} */
 var 選択中のカード = null;
-const ソリティア = new Solitaire();
-window["ソリティア"] = ソリティア
-const cardViewMdelRepository = new CardViewMdelRepository();
+/** @type {Solitaire} */
+var ソリティア;
+/** @type {CardViewMdelRepository} */
+var cardViewMdelRepository;
 //タイプ音読み込み
 const sounds = ['./sound/se1.mp3', './sound/se2.mp3'].map(v => new window["Howl"]({src: [v]}));
-
-setup(ソリティア);
+setup();
