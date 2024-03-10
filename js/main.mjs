@@ -198,8 +198,8 @@ function setup(ソリティア) {
   組札におくボタン = createElement("button", v => {
     v.innerHTML = "組札に\nおく";
     v.style.left = "100px";
-    // v.style.top = "140px";
-    v.style.top = `${600 + size.appMargin.top}px`;
+    v.style.top = "140px";
+    //v.style.top = `${600 + size.appMargin.top}px`;
     v.addEventListener("click", () => {
       選択中のカードを組札に置く();
     })
