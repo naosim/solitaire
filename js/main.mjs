@@ -199,7 +199,7 @@ function setup(ソリティア) {
     v.innerHTML = "組札に\nおく";
     v.style.left = "100px";
     // v.style.top = "140px";
-    v.style.top = "60px";
+    v.style.top = `${600 + size.appMargin.top}px`;
     v.addEventListener("click", () => {
       選択中のカードを組札に置く();
     })
@@ -209,7 +209,7 @@ function setup(ソリティア) {
   const 手札をめくるボタン = createElement("button", v => {
     v.innerHTML = "めくる";
     v.style.left = size.カードグリッド.x * 6 + "px";
-    v.style.top = "60px";
+    v.style.top = `${60 + size.appMargin.top}px`;
     const めくる = () => {
       ソリティア.手札を1枚めくる();
       選択中のカード = null;
@@ -224,7 +224,7 @@ function setup(ソリティア) {
       v.id = `tableauButton${i}`;
       v.className = "tableauButton"
       v.style.left = `${size.カードグリッド.x * i}px`;
-      v.style.top = "500px";
+      v.style.top = `${500 + size.appMargin.top}px`;
       v.style.zIndex = "1000000000";
       v.addEventListener("click", () => {
         console.log("click");

@@ -147,23 +147,23 @@ export class CardViewMdel {
     const offsetX = size.カードグリッド.x;
     if(deckType.group == "場札") {
       const x = offsetX * deckType.index;
-      let y = size.場札の開始位置.y + i * size.ズレ.裏札;
+      let y = size.場札の開始位置.y + i * size.ズレ.裏札 + size.appMargin.top;
       if(this.#裏表.が表) {
         const 裏面枚数 = 場札.場札[deckType.index].裏面デッキ.枚数;
-        y = size.場札の開始位置.y + 裏面枚数 * size.ズレ.裏札 + (i - 裏面枚数) * size.ズレ.表札;
+        y = size.場札の開始位置.y + 裏面枚数 * size.ズレ.裏札 + (i - 裏面枚数) * size.ズレ.表札 + size.appMargin.top;
       }
       this.位置を設定する(x, y);
     } else if(deckType.group == "組札") {
       const x = offsetX * deckType.index;
-      const y = i * 4;
+      const y = i * 4 + size.appMargin.top;
       this.位置を設定する(x, y);
     } else if(deckType.value == "手札裏") {
       const x = offsetX * 6;
-      const y = i * 2;
+      const y = i * 2 + size.appMargin.top;
       this.位置を設定する(x, y);
     } else if(deckType.value == "手札表") {
       const x = offsetX * 5;
-      const y = i * 2;
+      const y = i * 2 + size.appMargin.top;
       this.位置を設定する(x, y);
     }
   }
