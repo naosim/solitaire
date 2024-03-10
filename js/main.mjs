@@ -181,7 +181,7 @@ function setup() {
   tableauButtons = [];
 
   ソリティア.変更リスナー = (v) => {
-    if(v.eq(CommandName.カードを組札移動する)) {
+    if(v.eq(CommandName.リフレッシュ)) {
       sounds[1].play();
     } else if(v.eq(CommandName.手札を1枚めくる)) {
       // nop: 音を鳴らさない
