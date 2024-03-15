@@ -123,5 +123,9 @@ export class FoundationDecks {
   forEach(cb) {
     this.組札.forEach(cb);
   }
+
+  完成した() {
+    return this.組札.filter(v => v.が空でない && v.最後のカード.数字 == 13).length == 4;
+  }
   
 }

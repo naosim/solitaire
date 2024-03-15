@@ -41,6 +41,9 @@ export class Solitaire {
   /** @type {undefined | ((v:CommandName)=>void)} */
   変更リスナー
 
+  /** @type {undefined | (()=>void)} */
+  完成リスナー
+
   constructor() {
     const デッキ = Solitaire.シャッフルされたデッキを作る();
     const 場札リスト = [0, 1, 2, 3, 4, 5, 6]
@@ -76,6 +79,7 @@ export class Solitaire {
         this.変更リスナー && this.変更リスナー(CommandName.カードを場札に移動する)
       }, 0);
     }
+
     return true;
   }
 
@@ -98,6 +102,11 @@ export class Solitaire {
     if(this.変更リスナー) {
       setTimeout(() => {
         this.変更リスナー && this.変更リスナー(CommandName.カードを組札移動する)
+      }, 0);
+    }
+    if(this.完成した() && this.完成リスナー) {
+      setTimeout(() => {
+        this.完成リスナー && this.完成リスナー()
       }, 0);
     }
     return true;
@@ -151,6 +160,10 @@ export class Solitaire {
   バグチェック() {
     var count = this.組札.枚数 + this.場札.枚数 + this.手札.枚数
     return count == 52 
+  }
+
+  完成した() {
+    return this.組札.完成した()
   }
 
   static シャッフルされたデッキを作る() {

@@ -189,7 +189,10 @@ function setup() {
       sounds[0].play();
     }
     draw(ソリティア);
-    
+  }
+
+  ソリティア.完成リスナー = () => {
+    alert("かんせい！")
   }
 
   アシスタント = new Assistant(ソリティア);
