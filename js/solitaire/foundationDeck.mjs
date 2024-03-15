@@ -19,6 +19,7 @@ export class FoundationDeck {
 
   get が空() { return this.デッキ.が空 };
   get が空でない() { return this.デッキ.が空でない };
+  get 完成した() { return this.が空でない && this.最後のカード.数字 == 13}
 
   /**
    * 
@@ -125,7 +126,7 @@ export class FoundationDecks {
   }
 
   完成した() {
-    return this.組札.filter(v => v.が空でない && v.最後のカード.数字 == 13).length == 4;
+    return this.組札.filter(v => v.完成した).length == 4;
   }
   
 }
