@@ -103,6 +103,11 @@ export class Deck {
     this.values = this.values.reverse();
   }
 
+  ソートする() {
+    this.values.sort((a, b) => a.sortValue - b.sortValue);
+    return this;
+  }
+
   /**
    * 
    * @param {Card} card 

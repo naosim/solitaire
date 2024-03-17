@@ -114,6 +114,5 @@ export class FixedFaceDeck {
     デッキ.すべての裏表を揃える(表裏);
     return new FixedFaceDeck(表裏, デッキ);
   }
-
 }
 

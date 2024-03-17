@@ -30,9 +30,18 @@ export class Mark {
   value;
   /** @type {Color} */
   色;
-  constructor(value, 色) {
+  /** @type {number} */
+  sortValue;
+  /**
+   * 
+   * @param {String} value 
+   * @param {Color} 色 
+   * @param {number} sortValue 
+   */
+  constructor(value, 色, sortValue) {
     this.value = value;
     this.色 = 色;
+    this.sortValue = sortValue;
   }
 
   get 色が黒() {
@@ -55,10 +64,10 @@ export class Mark {
     }
   }
 
-  static ハート = new Mark("ハート", Color.赤);
-  static スペード = new Mark("スペード", Color.黒);
-  static ダイヤ = new Mark("ダイヤ", Color.赤);
-  static クラブ = new Mark("クラブ", Color.黒);
+  static ハート = new Mark("ハート", Color.赤, 0);
+  static スペード = new Mark("スペード", Color.黒, 1);
+  static ダイヤ = new Mark("ダイヤ", Color.赤, 2);
+  static クラブ = new Mark("クラブ", Color.黒, 3);
   static すべて = [Mark.クラブ, Mark.スペード, Mark.ダイヤ, Mark.ハート];
   
   /**
@@ -111,6 +120,10 @@ export class Card {
     this.#数字 = 数字
     this.#マーク = マーク
     this.#裏表 = 裏表
+  }
+
+  get sortValue() {
+    return this.#数字 * 10 + this.#マーク.sortValue;
   }
 
   get 数字() {
