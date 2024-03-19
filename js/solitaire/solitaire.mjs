@@ -28,16 +28,47 @@ export class CommandName {
   static カードを組札移動する = new CommandName("カードを組札移動する");
   static 手札を1枚めくる = new CommandName("手札を1枚めくる");
   static リフレッシュ = new CommandName("リフレッシュ");
+  static 戻す = new CommandName("戻す");
+}
+
+class SolitaireLog {
+  /** @type {{裏面デッキ: Deck, 表面デッキ: Deck}[]} */
+  場札
+  /** @type {{裏面デッキ: Deck, 表面デッキ: Deck}} */
+  手札
+  /** @type {Deck[]} */
+  組札
+
+  /**
+   * 
+   * @param {{裏面デッキ: Deck, 表面デッキ: Deck}[]} 場札 
+   * @param {{裏面デッキ: Deck, 表面デッキ: Deck}} 手札 
+   * @param {Deck[]} 組札 
+   */
+  constructor(場札, 手札, 組札) {
+    this.場札 = 場札;
+    this.手札 = 手札;
+    this.組札 = 組札;
+
+  }
 }
 
 /**
  * 履歴
  */
 class History {
+  /** @type {SolitaireLog[]} */
   values = [];
-  add(obj) {
-    this.values.push(obj);
-    if(this.values.length > 10) {
+
+  保持できる履歴の数 = 100;
+
+  /**
+   * 
+   * @param {SolitaireLog} log 
+   */
+  add(log) {
+    this.values.push(log);
+    if(this.values.length > this.保持できる履歴の数) {
       this.values.shift();
     }
   }
@@ -86,7 +117,7 @@ export class Solitaire {
 
     this.手札 = new StockDeck(FixedFaceDeck.作成(Face.裏, デッキ.ソートする()), new FixedFaceDeck(Face.表, new Deck([])))
 
-    this.組札 = new FoundationDecks([new FoundationDeck(), new FoundationDeck(), new FoundationDeck(), new FoundationDeck()])
+    this.組札 = new FoundationDecks([FoundationDeck.empty(), FoundationDeck.empty(), FoundationDeck.empty(), FoundationDeck.empty()])
   }
 
   static newGame() {
@@ -100,6 +131,7 @@ export class Solitaire {
    * @param {number} 場札番号 
    */
   カードを場札に移動する(カード, 場札番号) {
+    this.履歴.add(this.toDeck());
     if(!this.場札.にカードを置ける(カード, 場札番号)) {
       return false;
     }
@@ -116,6 +148,7 @@ export class Solitaire {
    * @returns 
    */
   カードを組札移動する(カード) {
+    this.履歴.add(this.toDeck());
     if(this.場札.カードがある(カード) && !this.場札.カードは最後の1枚である(カード)) {
       return false;
     }
@@ -136,8 +169,20 @@ export class Solitaire {
   }
 
   手札を1枚めくる() {
+    this.履歴.add(this.toDeck());
     this.手札.を1枚めくる();
     this.変更を非同期で通知する(CommandName.手札を1枚めくる);
+  }
+
+  戻す() {
+    const log = this.履歴.pop();
+    if(!log) {
+      return;
+    }
+    this.場札 = new TableauDecks(log.場札.map(v => new TableauDeck(new FixedFaceDeck(Face.裏, v.裏面デッキ), new FixedFaceDeck(Face.表, v.表面デッキ))));
+    this.手札 = new StockDeck(new FixedFaceDeck(Face.裏, log.手札.裏面デッキ), new FixedFaceDeck(Face.表, log.手札.表面デッキ))
+    this.組札 = new FoundationDecks(log.組札.map(v => new FoundationDeck(new FixedFaceDeck(Face.表, v))))
+    this.変更を非同期で通知する(CommandName.戻す);
   }
 
   /**
@@ -145,7 +190,6 @@ export class Solitaire {
    * @param {CommandName} command 
    */
   変更を非同期で通知する(command) {
-    this.履歴.add(this.toObject());
     if(this.変更リスナー) {
       setTimeout(() => {
         this.変更リスナー && this.変更リスナー(command)
@@ -210,11 +254,11 @@ export class Solitaire {
     return デッキ;
   }
 
-  toObject() {
+  toDeck() {
     return {
-      場札: this.場札.toObject(),
-      手札: this.手札.toObject(),
-      組札: this.組札.toObject()
+      場札: this.場札.toDeck(),
+      手札: this.手札.toDeck(),
+      組札: this.組札.toDeck()
     }
   }
 }

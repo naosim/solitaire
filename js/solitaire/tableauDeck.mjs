@@ -96,10 +96,10 @@ export class TableauDeck {
     }
   }
 
-  toObject() {
+  toDeck() {
     return {
-      裏面デッキ: this.裏面デッキ.toObject(),
-      表面デッキ: this.表面デッキ.toObject(),
+      裏面デッキ: this.裏面デッキ.toDeck(),
+      表面デッキ: this.表面デッキ.toDeck(),
     }
   }
 }
@@ -128,7 +128,7 @@ export class TableauDecks {
  */
  にカードを置ける(カード, 場札番号) {
   const result = this.場札[場札番号].にデッキを置ける(new Deck([カード]));
-  console.log(カード, 場札番号, result);
+  // console.log(カード, 場札番号, result);
   return this.場札[場札番号].にデッキを置ける(new Deck([カード]))
  }
 
@@ -187,8 +187,8 @@ export class TableauDecks {
     return this.場札.map(v => v.表面デッキ).filter(v => v.含む(カード)).length > 0
   }
 
-  toObject() {
-    return this.場札.map(v => v.toObject())
+  toDeck() {
+    return this.場札.map(v => v.toDeck())
   }
 
 }

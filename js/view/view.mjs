@@ -75,6 +75,12 @@ export class CardViewMdel {
       this.#裏表 = 裏表;
       this.refreshClasName();
     }
+    if(裏表.が表) {
+      this.カード.表にする()
+    }
+    if(裏表.が裏) {
+      this.カード.裏にする()
+    }
   }
 
   /**

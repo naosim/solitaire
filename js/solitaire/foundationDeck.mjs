@@ -7,7 +7,18 @@ import { FixedFaceDeck } from "./fixedFaceDeck.mjs";
  */
 export class FoundationDeck {
   /** @type {FixedFaceDeck} */
-  デッキ = new FixedFaceDeck(Face.表, new Deck([]));
+  デッキ;
+
+  /**
+   * 
+   * @param {FixedFaceDeck} デッキ 
+   */
+  constructor(デッキ) {
+    this.デッキ = デッキ;
+  }
+  static empty() {
+    return new FoundationDeck(new FixedFaceDeck(Face.表, new Deck([])));
+  }
 
   get values() { return this.デッキ.values }
 
@@ -49,8 +60,8 @@ export class FoundationDeck {
     }
   }
 
-  toObject() {
-    return this.デッキ.toObject();
+  toDeck() {
+    return this.デッキ.toDeck();
   }
 }
 
@@ -133,8 +144,8 @@ export class FoundationDecks {
     return this.組札.filter(v => v.完成した).length == 4;
   }
 
-  toObject() {
-    return this.組札.map(v => v.toObject());
+  toDeck() {
+    return this.組札.map(v => v.toDeck());
   }
   
 }

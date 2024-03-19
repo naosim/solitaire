@@ -36,10 +36,10 @@ export class StockDeck {
     カード.表にする();
     this.表面デッキ.に(カード).を置く();
   }
-  toObject() {
+  toDeck() {
     return {
-      裏面デッキ: this.裏面デッキ.toObject(),
-      表面デッキ: this.表面デッキ.toObject(),
+      裏面デッキ: this.裏面デッキ.toDeck(),
+      表面デッキ: this.表面デッキ.toDeck(),
     }
   }
 }

@@ -145,6 +145,9 @@ export class Card {
     this.#裏表 = Face.表;
   }
   裏にする() {
+    if(this.#裏表.が裏) {
+      return;
+    }
     this.#裏表 = Face.裏;
   }
   get が裏() {
@@ -167,12 +170,8 @@ export class Card {
     }
   }
 
-  toObject() {
-    return {
-      数字: this.#数字,
-      マーク: this.#マーク.value,
-      裏表: this.#裏表.value,
-    }
+  コピーする() {
+    return new Card(this.#数字, this.#マーク, this.#裏表);
   }
 
   static fromText(text) {

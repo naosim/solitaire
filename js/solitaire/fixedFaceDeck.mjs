@@ -17,6 +17,7 @@ export class FixedFaceDeck {
   constructor(裏表, デッキ) {
     this.裏表 = 裏表
     this.デッキ = デッキ
+    this.デッキ.すべての裏表を揃える(裏表);
   }
 
   get values() {
@@ -115,8 +116,8 @@ export class FixedFaceDeck {
     return new FixedFaceDeck(表裏, デッキ);
   }
 
-  toObject() {
-    return this.デッキ.toObject();
+  toDeck() {
+    return this.デッキ.コピーする();
   }
 }
 

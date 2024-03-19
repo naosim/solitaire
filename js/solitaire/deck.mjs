@@ -117,8 +117,8 @@ export class Deck {
     return new Deck([card]);
   }
 
-  toObject() {
-    return this.values.map(v => v.toObject())
+  コピーする() {
+    return new Deck(this.values.map(v => v.コピーする()))
   }
 }
 

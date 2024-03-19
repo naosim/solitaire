@@ -124,6 +124,7 @@ function カードが押された(カード) {
   選択中のカード = カード;
   console.log(カード.数字)
   draw(ソリティア);
+  補助する();
 }
 
 /**
@@ -138,7 +139,6 @@ function 選択中のカードを場札に置く(場札番号) {
   console.log(選択中のカード, 場札番号);
   ソリティア.カードを場札に移動する(選択中のカード, 場札番号);
   選択中のカード = null;
-  // draw(ソリティア);
   リフレッシュ();
   
   if(!ソリティア.バグチェック()) {
@@ -152,7 +152,6 @@ function 選択中のカードを組札に置く() {
   }
   ソリティア.カードを組札移動する(選択中のカード);
   選択中のカード = null;
-  // draw(ソリティア);
   リフレッシュ();
   if(!ソリティア.バグチェック()) {
     alert("枚数が不整合です");
@@ -189,6 +188,11 @@ function setup() {
       sounds[0].play();
     }
     draw(ソリティア);
+
+    if(!v.eq(CommandName.戻す)) {
+      補助する();
+    }
+    
   }
 
   ソリティア.完成リスナー = () => {
@@ -258,6 +262,7 @@ function setup() {
 
   ソリティア.リフレッシュ();
   draw(ソリティア);
+  補助する();
 }
 
 /**
@@ -281,8 +286,6 @@ function draw(ソリティア) {
     const y =  ソリティア.場札.場札[i].裏面デッキ.枚数 * size.ズレ.裏札 + ソリティア.場札.場札[i].表面デッキ.枚数 * size.ズレ.表札;
     v.style.top = `${size.場札の開始位置.y + size.card.height + y}px`;
   })
-
-  補助する();
 }
 
 function リフレッシュ() {
@@ -302,6 +305,10 @@ function 補助する() {
 
 qs("#newGameButton").addEventListener("click", () => {
   setup();
+})
+qs("#backButton").addEventListener("click", () => {
+  選択中のカード = null;
+  ソリティア.戻す();
 })
 
 /** @type {Card | null} */
