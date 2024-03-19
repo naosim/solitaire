@@ -118,6 +118,5 @@ export class FixedFaceDeck {
   toObject() {
     return this.デッキ.toObject();
   }
-
 }
 

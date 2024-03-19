@@ -58,7 +58,7 @@ export class Solitaire {
     .map(v => new TableauDeck(FixedFaceDeck.作成(Face.裏, v.裏), FixedFaceDeck.作成(Face.表, v.表)))
     this.場札 = new TableauDecks(場札リスト);
 
-    this.手札 = new StockDeck(FixedFaceDeck.作成(Face.裏, デッキ), new FixedFaceDeck(Face.表, new Deck([])))
+    this.手札 = new StockDeck(FixedFaceDeck.作成(Face.裏, デッキ.ソートする()), new FixedFaceDeck(Face.表, new Deck([])))
 
     this.組札 = new FoundationDecks([new FoundationDeck(), new FoundationDeck(), new FoundationDeck(), new FoundationDeck()])
   }
