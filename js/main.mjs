@@ -176,7 +176,7 @@ function setup() {
   qs("#app").innerHTML = "";
 
   選択中のカード = null;
-  ソリティア = new Solitaire();
+  ソリティア = Solitaire.newGame();
   cardViewMdelRepository = new CardViewMdelRepository();
   tableauButtons = [];
 

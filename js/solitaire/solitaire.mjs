@@ -30,6 +30,22 @@ export class CommandName {
   static リフレッシュ = new CommandName("リフレッシュ");
 }
 
+/**
+ * 履歴
+ */
+class History {
+  values = [];
+  add(obj) {
+    this.values.push(obj);
+    if(this.values.length > 10) {
+      this.values.shift();
+    }
+  }
+  pop() {
+    return this.values.pop();
+  }
+}
+
 export class Solitaire {
   /** @type {TableauDecks} */
   場札
@@ -38,14 +54,24 @@ export class Solitaire {
   /** @type {FoundationDecks} */
   組札;
 
+  /**
+   * @type {History}
+   */
+  履歴;
+
   /** @type {undefined | ((v:CommandName)=>void)} */
   変更リスナー
 
   /** @type {undefined | (()=>void)} */
   完成リスナー
 
-  constructor() {
-    const デッキ = Solitaire.シャッフルされたデッキを作る();
+  /**
+   * 
+   * @param {Deck} デッキ 
+   * @param {History} 履歴 
+   */
+  constructor(デッキ, 履歴) {
+    this.履歴 = 履歴;
     const 場札リスト = [0, 1, 2, 3, 4, 5, 6]
     .map(v => {
       const cards = [];
@@ -63,6 +89,11 @@ export class Solitaire {
     this.組札 = new FoundationDecks([new FoundationDeck(), new FoundationDeck(), new FoundationDeck(), new FoundationDeck()])
   }
 
+  static newGame() {
+    const デッキ = Solitaire.シャッフルされたデッキを作る();
+    return new Solitaire(デッキ, new History());
+  }
+
   /**
    * 
    * @param {Card} カード 
@@ -74,12 +105,8 @@ export class Solitaire {
     }
     const 移動するデッキ = this.デッキを取り出す(カード);
     this.場札.にデッキを移動する(移動するデッキ, 場札番号);
-    if(this.変更リスナー) {
-      setTimeout(() => {
-        this.変更リスナー && this.変更リスナー(CommandName.カードを場札に移動する)
-      }, 0);
-    }
 
+    this.変更を非同期で通知する(CommandName.カードを場札に移動する);
     return true;
   }
 
@@ -99,11 +126,7 @@ export class Solitaire {
     const 移動するカード = 移動するデッキ.最後のカード
 
     this.組札.にカードを移動する(移動するカード);
-    if(this.変更リスナー) {
-      setTimeout(() => {
-        this.変更リスナー && this.変更リスナー(CommandName.カードを組札移動する)
-      }, 0);
-    }
+    this.変更を非同期で通知する(CommandName.カードを組札移動する);
     if(this.完成した() && this.完成リスナー) {
       setTimeout(() => {
         this.完成リスナー && this.完成リスナー()
@@ -114,9 +137,18 @@ export class Solitaire {
 
   手札を1枚めくる() {
     this.手札.を1枚めくる();
+    this.変更を非同期で通知する(CommandName.手札を1枚めくる);
+  }
+
+  /**
+   * 
+   * @param {CommandName} command 
+   */
+  変更を非同期で通知する(command) {
+    this.履歴.add(this.toObject());
     if(this.変更リスナー) {
       setTimeout(() => {
-        this.変更リスナー && this.変更リスナー(CommandName.手札を1枚めくる)
+        this.変更リスナー && this.変更リスナー(command)
       }, 0);
     }
   }
@@ -150,11 +182,7 @@ export class Solitaire {
     if(!this.場札.リフレッシュ()) {
       return;
     }
-    if(this.変更リスナー) {
-      setTimeout(() => {
-        this.変更リスナー && this.変更リスナー(CommandName.リフレッシュ)
-      }, 0);
-    }
+    this.変更を非同期で通知する(CommandName.リフレッシュ);
   }
 
   バグチェック() {
