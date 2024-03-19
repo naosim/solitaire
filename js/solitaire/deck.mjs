@@ -111,6 +111,10 @@ export class Deck {
   static fromCard(card) {
     return new Deck([card]);
   }
+
+  toObject() {
+    return this.values.map(v => v.toObject())
+  }
 }
 
 /**

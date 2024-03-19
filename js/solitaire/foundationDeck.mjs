@@ -48,6 +48,10 @@ export class FoundationDeck {
       }
     }
   }
+
+  toObject() {
+    return this.デッキ.toObject();
+  }
 }
 
 /**
@@ -127,6 +131,10 @@ export class FoundationDecks {
 
   完成した() {
     return this.組札.filter(v => v.完成した).length == 4;
+  }
+
+  toObject() {
+    return this.組札.map(v => v.toObject());
   }
   
 }

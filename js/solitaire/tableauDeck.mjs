@@ -95,6 +95,13 @@ export class TableauDeck {
       }
     }
   }
+
+  toObject() {
+    return {
+      裏面デッキ: this.裏面デッキ.toObject(),
+      表面デッキ: this.表面デッキ.toObject(),
+    }
+  }
 }
 
 /**
@@ -178,6 +185,10 @@ export class TableauDecks {
    */
   カードがある(カード) {
     return this.場札.map(v => v.表面デッキ).filter(v => v.含む(カード)).length > 0
+  }
+
+  toObject() {
+    return this.場札.map(v => v.toObject())
   }
 
 }

@@ -181,5 +181,13 @@ export class Solitaire {
     デッキ.をシャッフルする();
     return デッキ;
   }
+
+  toObject() {
+    return {
+      場札: this.場札.toObject(),
+      手札: this.手札.toObject(),
+      組札: this.組札.toObject()
+    }
+  }
 }
 

@@ -35,5 +35,11 @@ export class StockDeck {
     const カード = this.裏面デッキ.最後のカードを取る();
     カード.表にする();
     this.表面デッキ.に(カード).を置く();
-  }  
+  }
+  toObject() {
+    return {
+      裏面デッキ: this.裏面デッキ.toObject(),
+      表面デッキ: this.表面デッキ.toObject(),
+    }
+  }
 }

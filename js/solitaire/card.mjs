@@ -77,9 +77,13 @@ export class Mark {
 
 /** 裏表 */
 export class Face {
+  /** @type {string} */
   #value
   constructor(value) {
     this.#value = value;
+  }
+  get value() {
+    return this.#value;
   }
   get が裏() {
     return this.#value == "裏"
@@ -147,6 +151,14 @@ export class Card {
       が同じ: () => this.#数字 == 他.#数字 && this.#マーク.と(他.#マーク).が同じ(),
       が同じマーク: () => this.#マーク.と(他.#マーク).が同じ() ,
       が違う色: () => this.#マーク.と(他.#マーク).が違う色()
+    }
+  }
+
+  toObject() {
+    return {
+      数字: this.#数字,
+      マーク: this.#マーク.value,
+      裏表: this.#裏表.value,
     }
   }
 

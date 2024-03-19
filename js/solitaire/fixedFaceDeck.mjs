@@ -115,5 +115,9 @@ export class FixedFaceDeck {
     return new FixedFaceDeck(表裏, デッキ);
   }
 
+  toObject() {
+    return this.デッキ.toObject();
+  }
+
 }
 
