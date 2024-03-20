@@ -8,11 +8,15 @@
 html,body {
   margin: 0px;
   padding: 0px;
-  background-color: rgb(111, 204, 184);
+  /* background-color: rgb(111, 204, 184); */
+}
+
+body {
+  background-image: url(./img/4113025_2.jpg);
 }
 
 .toolbar {
-  background-color: rgb(71, 129, 117);
+  background-color: #268;
   padding: 8px;
   color: #fff;
   font-weight: bold;
@@ -95,8 +99,11 @@ html,body {
   height: 44px;
   z-index: 1000000;
 }
-
+.credit {
+  font-size: 7pt;
+}
 </style>
-<div class="toolbar">ソリティア <button id="newGameButton">ニューゲーム</button><button id="backButton">戻る</button></div>
+<div class="toolbar">ソリティア <button id="newGameButton">ニューゲーム</button><button id="backButton">戻る</button> <span class="credit">著作者：<a href="https://jp.freepik.com/free-vector/sky-background-for-video-conferencing_9250570.htm#query=%E7%A9%BA%20%E3%82%A4%E3%83%A9%E3%82%B9%E3%83%88&position=21&from_view=keyword&track=ais&uuid=ad1a2a47-4aa4-4b84-ae94-9dee43a9cab5">Freepik</a></span></div>
 <div id="app"></div>
+<div></div>
 <script type="module" src="./js/main.mjs"></script>
