@@ -88,7 +88,7 @@ export class Solitaire {
   /**
    * @type {History}
    */
-  履歴;
+  #履歴;
 
   /** @type {undefined | ((v:CommandName)=>void)} */
   変更リスナー
@@ -102,7 +102,7 @@ export class Solitaire {
    * @param {History} 履歴 
    */
   constructor(デッキ, 履歴) {
-    this.履歴 = 履歴;
+    this.#履歴 = 履歴;
     const 場札リスト = [0, 1, 2, 3, 4, 5, 6]
     .map(v => {
       const cards = [];
@@ -131,14 +131,14 @@ export class Solitaire {
    * @param {number} 場札番号 
    */
   カードを場札に移動する(カード, 場札番号) {
-    this.履歴.add(this.toDeck());
+    this.#履歴.add(this.toDeck());
     if(!this.場札.にカードを置ける(カード, 場札番号)) {
       return false;
     }
     const 移動するデッキ = this.デッキを取り出す(カード);
     this.場札.にデッキを移動する(移動するデッキ, 場札番号);
 
-    this.変更を非同期で通知する(CommandName.カードを場札に移動する);
+    this.#変更を非同期で通知する(CommandName.カードを場札に移動する);
     return true;
   }
 
@@ -148,7 +148,7 @@ export class Solitaire {
    * @returns 
    */
   カードを組札移動する(カード) {
-    this.履歴.add(this.toDeck());
+    this.#履歴.add(this.toDeck());
     if(this.場札.カードがある(カード) && !this.場札.カードは最後の1枚である(カード)) {
       return false;
     }
@@ -159,7 +159,7 @@ export class Solitaire {
     const 移動するカード = 移動するデッキ.最後のカード
 
     this.組札.にカードを移動する(移動するカード);
-    this.変更を非同期で通知する(CommandName.カードを組札移動する);
+    this.#変更を非同期で通知する(CommandName.カードを組札移動する);
     if(this.完成した() && this.完成リスナー) {
       setTimeout(() => {
         this.完成リスナー && this.完成リスナー()
@@ -169,27 +169,27 @@ export class Solitaire {
   }
 
   手札を1枚めくる() {
-    this.履歴.add(this.toDeck());
+    this.#履歴.add(this.toDeck());
     this.手札.を1枚めくる();
-    this.変更を非同期で通知する(CommandName.手札を1枚めくる);
+    this.#変更を非同期で通知する(CommandName.手札を1枚めくる);
   }
 
   戻す() {
-    const log = this.履歴.pop();
+    const log = this.#履歴.pop();
     if(!log) {
       return;
     }
     this.場札 = new TableauDecks(log.場札.map(v => new TableauDeck(new FixedFaceDeck(Face.裏, v.裏面デッキ), new FixedFaceDeck(Face.表, v.表面デッキ))));
     this.手札 = new StockDeck(new FixedFaceDeck(Face.裏, log.手札.裏面デッキ), new FixedFaceDeck(Face.表, log.手札.表面デッキ))
     this.組札 = new FoundationDecks(log.組札.map(v => new FoundationDeck(new FixedFaceDeck(Face.表, v))))
-    this.変更を非同期で通知する(CommandName.戻す);
+    this.#変更を非同期で通知する(CommandName.戻す);
   }
 
   /**
    * 
    * @param {CommandName} command 
    */
-  変更を非同期で通知する(command) {
+  #変更を非同期で通知する(command) {
     if(this.変更リスナー) {
       setTimeout(() => {
         this.変更リスナー && this.変更リスナー(command)
@@ -226,7 +226,7 @@ export class Solitaire {
     if(!this.場札.リフレッシュ()) {
       return;
     }
-    this.変更を非同期で通知する(CommandName.リフレッシュ);
+    this.#変更を非同期で通知する(CommandName.リフレッシュ);
   }
 
   バグチェック() {
@@ -245,10 +245,6 @@ export class Solitaire {
         cards.push(new Card(数字, マーク, Face.表))
       }
     }
-    // shuffle(cards);
-    // for(let マーク of Mark.すべて) {
-    //   cards.push(new Card(1, マーク, Face.表));
-    // }
     const デッキ = new Deck(cards.reverse());
     デッキ.をシャッフルする();
     return デッキ;
