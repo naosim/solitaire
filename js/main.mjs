@@ -129,6 +129,17 @@ function カードが押された(カード) {
 
 /**
  * 
+ * @param {Card} カード 
+ */
+function 裏面カードが押された(カード) {
+  if(ソリティア.手札.裏面デッキ.含む(カード)) {
+    ソリティア.手札を1枚めくる();
+    選択中のカード = null;
+  }
+}
+
+/**
+ * 
  * @param {number} 場札番号 
  * @returns 
  */
@@ -201,7 +212,7 @@ function setup() {
 
   アシスタント = new Assistant(ソリティア);
   forEachCard(ソリティア, (c, d, i) => {
-    const vm = CardViewMdel.create(c, カードが押された);
+    const vm = CardViewMdel.create(c, カードが押された, 裏面カードが押された);
     vm.裏表 = c.裏表;
     cardViewMdelRepository.add(vm);
     qs("#app").appendChild(vm.element);
@@ -224,14 +235,14 @@ function setup() {
     ソリティア.手札を1枚めくる();
     選択中のカード = null;
   }
-  const 手札をめくるボタン = createElement("button", v => {
-    v.innerHTML = "めくる";
-    v.style.left = size.カードグリッド.x * 6 + "px";
-    v.style.top = `${60 + size.appMargin.top}px`;
-    v.className = "gameButton";
-    v.addEventListener("mousedown",めくるボタンが押されたときの挙動);
-  })
-  qs("#app").appendChild(手札をめくるボタン);
+  // const 手札をめくるボタン = createElement("button", v => {
+  //   v.innerHTML = "めくる";
+  //   v.style.left = size.カードグリッド.x * 6 + "px";
+  //   v.style.top = `${60 + size.appMargin.top}px`;
+  //   v.className = "gameButton";
+  //   v.addEventListener("mousedown",めくるボタンが押されたときの挙動);
+  // })
+  // qs("#app").appendChild(手札をめくるボタン);
 
   const 手札をめくるボタン2 = createElement("button", v => {
     v.innerHTML = "手札をめくる";

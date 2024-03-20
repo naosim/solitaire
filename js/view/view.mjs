@@ -99,9 +99,10 @@ export class CardViewMdel {
   /**
    * @param {string} id 
    * @param {Card} カード 
-   * @param {(v:Card) => void} cb
+   * @param {(v:Card) => void} 表面カードが押されたイベント
+   * @param {(v:Card) => void} 裏面カードが押されたイベント
    */
-  constructor(id, カード, cb) {
+  constructor(id, カード, 表面カードが押されたイベント, 裏面カードが押されたイベント) {
     this.id = id;
     this.カード = カード
     const mark = CardViewMdel.toMarkChar(カード.マーク);
@@ -120,9 +121,11 @@ export class CardViewMdel {
     this.element.innerHTML = innerHTML;
     this.element.addEventListener("click", () => {
       if(this.#裏表.が裏) {
-        return 
+        裏面カードが押されたイベント(カード);
+      } else {
+        表面カードが押されたイベント(カード);// 表のときだけ
       }
-      cb(カード);// 表のときだけ
+      
     })
   }
 
@@ -205,10 +208,11 @@ export class CardViewMdel {
   /**
    * 
    * @param {Card} カード 
-   * @param {(v:Card) => void} cb
+   * @param {(v:Card) => void} 表面カードが押されたイベント
+   * @param {(v:Card) => void} 裏面カードが押されたイベント
    */
-  static create(カード, cb) {
-    return new CardViewMdel(CardViewMdel.toId(カード), カード, cb);
+  static create(カード, 表面カードが押されたイベント, 裏面カードが押されたイベント) {
+    return new CardViewMdel(CardViewMdel.toId(カード), カード,  表面カードが押されたイベント, 裏面カードが押されたイベント);
   }
 }
 
