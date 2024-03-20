@@ -235,14 +235,15 @@ function setup() {
     ソリティア.手札を1枚めくる();
     選択中のカード = null;
   }
-  // const 手札をめくるボタン = createElement("button", v => {
-  //   v.innerHTML = "めくる";
-  //   v.style.left = size.カードグリッド.x * 6 + "px";
-  //   v.style.top = `${60 + size.appMargin.top}px`;
-  //   v.className = "gameButton";
-  //   v.addEventListener("mousedown",めくるボタンが押されたときの挙動);
-  // })
-  // qs("#app").appendChild(手札をめくるボタン);
+  const 手札をめくるボタン = createElement("button", v => {
+    v.innerHTML = "めくる";
+    v.style.left = size.カードグリッド.x * 6 + "px";
+    v.style.top = `${20 + size.appMargin.top}px`;
+    v.className = "gameButton";
+    v.style.zIndex = "0";
+    v.addEventListener("mousedown",めくるボタンが押されたときの挙動);
+  })
+  qs("#app").appendChild(手札をめくるボタン);
 
   const 手札をめくるボタン2 = createElement("button", v => {
     v.innerHTML = "手札をめくる";
