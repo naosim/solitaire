@@ -22,6 +22,10 @@ export class DeckType {
     this.index = index;
   }
 
+  eq(other) {
+    return this.value == other.value;
+  }
+
   static 組札0 = new DeckType("組札0", "組札", 0);
   static 組札1 = new DeckType("組札1", "組札", 1);
   static 組札2 = new DeckType("組札2", "組札", 2);
@@ -140,10 +144,41 @@ export class CardViewMdel {
     this.element.className = classNames.join(" ");
   }
 
-  位置を設定する(x, y) {
+  /**
+   * 
+   * @param {number} x 
+   * @param {number} y 
+   * @param {number} z 
+   */
+  位置を設定する(x, y, z) {
     this.element.style.left = x + "px";
     this.element.style.top = y + "px";
-    this.element.style.zIndex = y * 10000 + x;
+    this.element.style.zIndex = "" + z;
+  }
+
+  /**
+   * 
+   * @param {number} x 
+   * @param {number} y 
+   * @param {DeckType} deckType 
+   * @returns 
+   */
+  static calcZindex(x, y, deckType) {
+    var z = 1;
+    if(deckType.group == "場札") {
+      z = 0;
+    }
+    if(deckType.group == "組札") {
+      z = 10;
+    }
+    if(deckType.value == "手札表") {
+      z = 5;
+    }
+    if(deckType.value == "手札裏") {
+      z = 3;
+    }
+    // console.log(x, y, z, z * 1000000 + y * 100 + Math.floor(x/10));
+    return z * 1000000 + y * 100 + Math.floor(x/10);
   }
 
   /**
@@ -161,19 +196,19 @@ export class CardViewMdel {
         const 裏面枚数 = 場札.場札[deckType.index].裏面デッキ.枚数;
         y = size.場札の開始位置.y + 裏面枚数 * size.ズレ.裏札 + (i - 裏面枚数) * size.ズレ.表札 + size.appMargin.top;
       }
-      this.位置を設定する(x, y);
+      this.位置を設定する(x, y, CardViewMdel.calcZindex(x, y, deckType));
     } else if(deckType.group == "組札") {
       const x = offsetX * deckType.index;
       const y = i * 4 + size.appMargin.top;
-      this.位置を設定する(x, y);
+      this.位置を設定する(x, y, CardViewMdel.calcZindex(x, y, deckType));
     } else if(deckType.value == "手札裏") {
       const x = offsetX * 6;
       const y = i * 2 + size.appMargin.top;
-      this.位置を設定する(x, y);
+      this.位置を設定する(x, y, CardViewMdel.calcZindex(x, y, deckType));
     } else if(deckType.value == "手札表") {
       const x = offsetX * 5;
       const y = i * 2 + size.appMargin.top;
-      this.位置を設定する(x, y);
+      this.位置を設定する(x, y, CardViewMdel.calcZindex(x, y, deckType));
     }
   }
 
