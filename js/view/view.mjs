@@ -108,7 +108,7 @@ export class CardViewMdel {
     const mark = CardViewMdel.toMarkChar(カード.マーク);
     const number = カード.数字 >= 11 ? ["J", "Q", "K"][カード.数字 - 11] : カード.数字;
     const innerHTML = `
-  <div class="back"></div>
+  <div class="back"><img src="./img/cat2.png" width="52" /></div>
   <div class="front${カード.マーク.色が赤 ? ' red' : ''}">
     <div class="lefttop">
       <div class="mark">${mark}</div><div class="num">${number}</div>
