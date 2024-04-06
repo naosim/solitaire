@@ -223,6 +223,7 @@ function setup() {
     v.innerHTML = "組札に\nおく";
     v.style.left = "100px";
     v.style.top = "140px";
+    v.style.zIndex = "20000000";
     v.className = "gameButton";
     //v.style.top = `${600 + size.appMargin.top}px`;
     v.addEventListener("click", () => {
